@@ -22,13 +22,44 @@
             --white: #ffffff;
             --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --bg-color: #ffffff;
+            --text-color: #2c3e50;
+            --card-bg: #ffffff;
+            --timeline-bg: #ffffff;
+            --footer-bg: #2c3e50;
+            --footer-text: #ffffff;
+            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-scrolled-bg: rgba(255, 255, 255, 0.98);
+            --contact-bg: #f8f9fa;
+            --review-form-bg: #f8f9fa;
+        }
+
+        /* Dark Mode Variables */
+        [data-theme="dark"] {
+            --primary-color: #4a90e2;
+            --secondary-color: #6aa8ff;
+            --accent-color: #ff8a8a;
+            --text-dark: #f0f0f0;
+            --text-light: #b0b0b0;
+            --bg-light: #2a2a2a;
+            --bg-color: #1e1e1e;
+            --card-bg: #2a2a2a;
+            --timeline-bg: #2a2a2a;
+            --footer-bg: #1a1a1a;
+            --footer-text: #f0f0f0;
+            --nav-bg: rgba(42, 42, 42, 0.95);
+            --nav-scrolled-bg: rgba(42, 42, 42, 0.98);
+            --contact-bg: #333333;
+            --review-form-bg: #333333;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: var(--text-dark);
+            color: var(--text-color);
+            background-color: var(--bg-color);
             overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Navigation */
@@ -36,7 +67,7 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--nav-bg);
             backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 1rem 0;
@@ -46,7 +77,7 @@
 
         .navbar.scrolled {
             padding: 0.5rem 0;
-            background: rgba(255, 255, 255, 0.98);
+            background: var(--nav-scrolled-bg);
         }
 
         .nav-container {
@@ -101,6 +132,7 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
+            z-index: 1001;
         }
 
         .mobile-menu span {
@@ -109,6 +141,69 @@
             background: var(--text-dark);
             margin: 3px 0;
             transition: 0.3s;
+        }
+
+        .mobile-menu.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        .mobile-menu.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .mobile-menu.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
         }
 
         /* Hero Section */
@@ -323,7 +418,7 @@
             gap: 1rem;
             margin-bottom: 1rem;
             padding: 1rem;
-            background: var(--bg-light);
+            background: var(--contact-bg);
             border-radius: 10px;
             transition: transform 0.3s ease;
         }
@@ -347,7 +442,7 @@
         }
 
         .card {
-            background: white;
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: 15px;
             box-shadow: var(--shadow);
@@ -385,7 +480,7 @@
         }
 
         .skill-item {
-            background: white;
+            background: var(--card-bg);
             padding: 1.5rem;
             border-radius: 10px;
             box-shadow: var(--shadow);
@@ -436,7 +531,7 @@
             height: 20px;
             right: -10px;
             background: var(--accent-color);
-            border: 4px solid white;
+            border: 4px solid var(--bg-color);
             top: 15px;
             border-radius: 50%;
             z-index: 1;
@@ -451,7 +546,7 @@
         }
 
         .timeline-content {
-            background: white;
+            background: var(--timeline-bg);
             padding: 2rem;
             border-radius: 10px;
             box-shadow: var(--shadow);
@@ -478,7 +573,7 @@
 
         /* Review Form */
         .review-form {
-            background: var(--bg-light);
+            background: var(--review-form-bg);
             padding: 3rem;
             border-radius: 20px;
             max-width: 600px;
@@ -500,11 +595,12 @@
         .form-input {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #e1e8ed;
+            border: 2px solid var(--text-light);
             border-radius: 10px;
             font-size: 1rem;
             transition: border-color 0.3s ease;
-            background: white;
+            background: var(--card-bg);
+            color: var(--text-dark);
         }
 
         .form-input:focus {
@@ -554,8 +650,8 @@
 
         /* Footer */
         .footer {
-            background: var(--text-dark);
-            color: white;
+            background: var(--footer-bg);
+            color: var(--footer-text);
             padding: 3rem 0 1rem;
             text-align: center;
         }
@@ -631,9 +727,58 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .contact-info {
+                justify-content: center;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item::after {
+                left: 21px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0%;
+            }
+            
+            .timeline-item:nth-child(even)::after {
+                left: 21px;
+            }
+        }
+
         @media (max-width: 768px) {
             .nav-links {
-                display: none;
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                max-width: 300px;
+                height: 100vh;
+                background: var(--nav-bg);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                transition: right 0.3s ease;
+                padding: 2rem;
+            }
+            
+            .nav-links.active {
+                right: 0;
             }
 
             .mobile-menu {
@@ -653,39 +798,16 @@
                 align-items: center;
             }
 
-            .about-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-
-            .timeline::after {
-                left: 31px;
-            }
-
-            .timeline-item {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-
-            .timeline-item::after {
-                left: 21px;
-            }
-
-            .timeline-item:nth-child(even) {
-                left: 0%;
-            }
-
-            .timeline-item:nth-child(even)::after {
-                left: 21px;
-            }
-
             .section-title {
                 font-size: 2rem;
             }
 
             .cards-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .review-form {
+                padding: 2rem;
             }
         }
 
@@ -705,7 +827,15 @@
             }
 
             .review-form {
-                padding: 2rem 1.5rem;
+                padding: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 3rem 0;
             }
         }
     </style>
@@ -715,13 +845,13 @@
     <nav class="navbar" id="navbar">
         <div class="nav-container">
             <div class="logo">Shreya Shrivastava</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#reviews">Reviews</a></li>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#reviews" class="nav-link">Reviews</a></li>
             </ul>
             <div class="mobile-menu" id="mobileMenu">
                 <span></span>
@@ -1035,11 +1165,21 @@
                     </div>
                 </div>
             </div>
-            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #444; color: #999;">
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #444; color: var(--text-light);">
                 <p>&copy; 2025 Shreya Shrivastava. All rights reserved. | Professional Nursing Portfolio</p>
             </div>
         </div>
     </footer>
+
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon" id="themeIcon"></i>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
 
     <script>
         // Sample reviews data (stored in memory)
@@ -1061,6 +1201,77 @@
                 date: "2024-12-10"
             }
         ];
+
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // Check for saved theme preference or use the system preference
+        const currentTheme = localStorage.getItem('theme') || 
+                            (prefersDarkScheme.matches ? 'dark' : 'light');
+        
+        // Apply the current theme
+        if (currentTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+        
+        // Toggle theme when button is clicked
+        themeToggle.addEventListener('click', function() {
+            if (document.body.getAttribute('data-theme') === 'dark') {
+                document.body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+            } else {
+                document.body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+        });
+
+        // Scroll to Top Functionality
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            
+            // Toggle body overflow when menu is open
+            if (navLinks.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close mobile menu when a nav link is clicked
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
 
         // Navbar scroll effect
         window.addEventListener('scroll', function() {
@@ -1212,7 +1423,7 @@
                 const reviewCard = document.createElement('div');
                 reviewCard.className = 'card';
                 reviewCard.style.marginBottom = '2rem';
-                reviewCard.style.background = 'white';
+                reviewCard.style.background = 'var(--card-bg)';
                 
                 const starsHtml = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
                 
@@ -1236,66 +1447,9 @@
             });
         }
 
-        // Mobile menu toggle
-        const mobileMenu = document.getElementById('mobileMenu');
-        const navLinks = document.querySelector('.nav-links');
-
-        mobileMenu.addEventListener('click', function() {
-            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-        });
-
-        // Add floating animation to cards
-        function addFloatingAnimation() {
-            const cards = document.querySelectorAll('.card, .skill-item, .timeline-content');
-            cards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`;
-                card.addEventListener('mouseenter', function() {
-                    this.style.animation = 'pulse 0.6s ease';
-                });
-                card.addEventListener('mouseleave', function() {
-                    this.style.animation = '';
-                });
-            });
-        }
-
-        // Typing effect for hero subtitle
-        function typeWriter(element, text, speed = 100) {
-            let i = 0;
-            element.innerHTML = '';
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                }
-            }
-            type();
-        }
-
-        // Progress bar animation for skills
-        function animateSkills() {
-            const skillItems = document.querySelectorAll('.skill-item');
-            skillItems.forEach((item, index) => {
-                setTimeout(() => {
-                    item.style.transform = 'translateY(0)';
-                    item.style.opacity = '1';
-                }, index * 100);
-            });
-        }
-
-        // Parallax effect for hero section
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const hero = document.querySelector('.hero');
-            if (hero) {
-                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
-            }
-        });
-
         // Initialize everything when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             displayReviews();
-            addFloatingAnimation();
             
             // Add entrance animations
             setTimeout(() => {
@@ -1309,32 +1463,16 @@
                     }, index * 100);
                 });
             }, 500);
+            
+            // Check if user prefers reduced motion
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) {
+                document.querySelectorAll('*').forEach(el => {
+                    el.style.animation = 'none !important';
+                    el.style.transition = 'none !important';
+                });
+            }
         });
-
-        // Add scroll-triggered counter animation
-        function animateCounters() {
-            const counters = [
-                { element: '.years-experience', target: 1, suffix: '+' },
-                { element: '.patients-helped', target: 100, suffix: '+' },
-                { element: '.departments', target: 3, suffix: '' }
-            ];
-
-            counters.forEach(counter => {
-                const element = document.querySelector(counter.element);
-                if (element) {
-                    let current = 0;
-                    const increment = counter.target / 50;
-                    const timer = setInterval(() => {
-                        current += increment;
-                        if (current >= counter.target) {
-                            current = counter.target;
-                            clearInterval(timer);
-                        }
-                        element.textContent = Math.floor(current) + counter.suffix;
-                    }, 50);
-                }
-            });
-        }
 
         // Add particle effect to hero section
         function createParticles() {
@@ -1361,13 +1499,6 @@
 
         // Initialize particle effect
         setTimeout(createParticles, 1000);
-
-        // Add dynamic background color change based on scroll
-        window.addEventListener('scroll', function() {
-            const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-            const hue = Math.floor(scrollPercent * 60) + 200; // Blue to purple range
-            document.documentElement.style.setProperty('--primary-color', `hsl(${hue}, 60%, 45%)`);
-        });
     </script>
 </body>
 </html>
