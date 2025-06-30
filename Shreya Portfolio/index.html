@@ -976,4 +976,398 @@
                         <label class="form-label">Rating</label>
                         <div class="rating-container" id="ratingContainer">
                             <span class="star" data-rating="1">★</span>
-                            <span class="star" data-rating="
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Your Review</label>
+                        <textarea class="form-input form-textarea" id="reviewText" placeholder="Share your experience working with Shreya..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Review
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Display Reviews -->
+            <div id="reviewsDisplay" style="margin-top: 3rem;">
+                <h3 style="text-align: center; color: var(--primary-color); margin-bottom: 2rem;">Recent Reviews</h3>
+                <div id="reviewsList"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <p>Email: shreyashrivastava527@gmail.com</p>
+                    <p>Phone: +91 7979897978</p>
+                    <p>Location: Morabadi, Ranchi, India</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Professional Focus</h3>
+                    <p>Dedicated to providing compassionate healthcare</p>
+                    <p>Committed to continuous learning and growth</p>
+                    <p>Ready to contribute to healthcare excellence</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect With Me</h3>
+                    <div class="social-links">
+                        <a href="mailto:shreyashrivastava527@gmail.com" class="social-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="tel:+917979897978" class="social-link">
+                            <i class="fas fa-phone"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; padding-top: 2rem; border-top: 1px solid #444; color: #999;">
+                <p>&copy; 2025 Shreya Shrivastava. All rights reserved. | Professional Nursing Portfolio</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample reviews data (stored in memory)
+        let reviews = [
+            {
+                name: "Dr. Rajesh Kumar",
+                position: "Senior Physician, Alam Hospital",
+                email: "dr.rajesh@alamhospital.com",
+                rating: 5,
+                text: "Shreya demonstrated exceptional dedication during her internship. Her compassionate approach to patient care and willingness to learn made her a valuable member of our team.",
+                date: "2024-12-15"
+            },
+            {
+                name: "Sister Mary Francis",
+                position: "Head Nurse, Emergency Department",
+                email: "mary.francis@alamhospital.com",
+                rating: 5,
+                text: "Working with Shreya was a pleasure. She showed great professionalism and quick learning abilities. Her communication skills with patients and families were remarkable.",
+                date: "2024-12-10"
+            }
+        ];
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Star rating functionality
+        const stars = document.querySelectorAll('.star');
+        let selectedRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = parseInt(this.getAttribute('data-rating'));
+                updateStars();
+            });
+
+            star.addEventListener('mouseover', function() {
+                const hoverRating = parseInt(this.getAttribute('data-rating'));
+                highlightStars(hoverRating);
+            });
+        });
+
+        document.getElementById('ratingContainer').addEventListener('mouseleave', function() {
+            updateStars();
+        });
+
+        function updateStars() {
+            stars.forEach((star, index) => {
+                if (index < selectedRating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function highlightStars(rating) {
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        // Review form submission
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const reviewData = {
+                name: document.getElementById('reviewerName').value,
+                position: document.getElementById('reviewerPosition').value,
+                email: document.getElementById('reviewerEmail').value,
+                rating: selectedRating,
+                text: document.getElementById('reviewText').value,
+                date: new Date().toISOString().split('T')[0]
+            };
+
+            if (selectedRating === 0) {
+                alert('Please select a rating!');
+                return;
+            }
+
+            // Add review to the beginning of the array
+            reviews.unshift(reviewData);
+            
+            // Display success message
+            showSuccessMessage();
+            
+            // Reset form
+            this.reset();
+            selectedRating = 0;
+            updateStars();
+            
+            // Update reviews display
+            displayReviews();
+        });
+
+        function showSuccessMessage() {
+            const successDiv = document.createElement('div');
+            successDiv.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, #4CAF50, #45a049);
+                    color: white;
+                    padding: 1rem 2rem;
+                    border-radius: 10px;
+                    margin: 1rem 0;
+                    text-align: center;
+                    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+                    animation: slideInUp 0.5s ease;
+                ">
+                    <i class="fas fa-check-circle" style="margin-right: 0.5rem;"></i>
+                    Thank you for your review! It has been submitted successfully.
+                </div>
+            `;
+            
+            const form = document.getElementById('reviewForm');
+            form.parentNode.insertBefore(successDiv, form.nextSibling);
+            
+            // Remove success message after 5 seconds
+            setTimeout(() => {
+                successDiv.remove();
+            }, 5000);
+        }
+
+        function displayReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = '';
+
+            reviews.slice(0, 6).forEach(review => {
+                const reviewCard = document.createElement('div');
+                reviewCard.className = 'card';
+                reviewCard.style.marginBottom = '2rem';
+                reviewCard.style.background = 'white';
+                
+                const starsHtml = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                
+                reviewCard.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                        <div>
+                            <h4 style="color: var(--primary-color); margin-bottom: 0.25rem;">${review.name}</h4>
+                            <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 0.5rem;">${review.position}</p>
+                            <div style="color: #ffc107; font-size: 1.2rem;">${starsHtml}</div>
+                        </div>
+                        <div style="color: var(--text-light); font-size: 0.85rem;">
+                            ${new Date(review.date).toLocaleDateString()}
+                        </div>
+                    </div>
+                    <p style="color: var(--text-dark); line-height: 1.6; font-style: italic;">
+                        "${review.text}"
+                    </p>
+                `;
+                
+                reviewsList.appendChild(reviewCard);
+            });
+        }
+
+        // Mobile menu toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.querySelector('.nav-links');
+
+        mobileMenu.addEventListener('click', function() {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+
+        // Add floating animation to cards
+        function addFloatingAnimation() {
+            const cards = document.querySelectorAll('.card, .skill-item, .timeline-content');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.addEventListener('mouseenter', function() {
+                    this.style.animation = 'pulse 0.6s ease';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.animation = '';
+                });
+            });
+        }
+
+        // Typing effect for hero subtitle
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Progress bar animation for skills
+        function animateSkills() {
+            const skillItems = document.querySelectorAll('.skill-item');
+            skillItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.transform = 'translateY(0)';
+                    item.style.opacity = '1';
+                }, index * 100);
+            });
+        }
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            displayReviews();
+            addFloatingAnimation();
+            
+            // Add entrance animations
+            setTimeout(() => {
+                document.querySelectorAll('.card, .skill-item').forEach((item, index) => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(30px)';
+                    setTimeout(() => {
+                        item.style.transition = 'all 0.6s ease';
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+            }, 500);
+        });
+
+        // Add scroll-triggered counter animation
+        function animateCounters() {
+            const counters = [
+                { element: '.years-experience', target: 1, suffix: '+' },
+                { element: '.patients-helped', target: 100, suffix: '+' },
+                { element: '.departments', target: 3, suffix: '' }
+            ];
+
+            counters.forEach(counter => {
+                const element = document.querySelector(counter.element);
+                if (element) {
+                    let current = 0;
+                    const increment = counter.target / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= counter.target) {
+                            current = counter.target;
+                            clearInterval(timer);
+                        }
+                        element.textContent = Math.floor(current) + counter.suffix;
+                    }, 50);
+                }
+            });
+        }
+
+        // Add particle effect to hero section
+        function createParticles() {
+            const hero = document.querySelector('.hero');
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.style.cssText = `
+                        position: absolute;
+                        width: 4px;
+                        height: 4px;
+                        background: rgba(255,255,255,0.3);
+                        border-radius: 50%;
+                        top: ${Math.random() * 100}%;
+                        left: ${Math.random() * 100}%;
+                        animation: float ${3 + Math.random() * 4}s ease-in-out infinite;
+                        animation-delay: ${Math.random() * 2}s;
+                        pointer-events: none;
+                    `;
+                    hero.appendChild(particle);
+                }, i * 200);
+            }
+        }
+
+        // Initialize particle effect
+        setTimeout(createParticles, 1000);
+
+        // Add dynamic background color change based on scroll
+        window.addEventListener('scroll', function() {
+            const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+            const hue = Math.floor(scrollPercent * 60) + 200; // Blue to purple range
+            document.documentElement.style.setProperty('--primary-color', `hsl(${hue}, 60%, 45%)`);
+        });
+    </script>
+</body>
+</html>
